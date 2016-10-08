@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sarwa.Common", "Sarwa.Extentions\Sarwa.Common.csproj", "{BDA33340-FB44-4AC9-9F09-F077F837DDB0}"
 EndProject
@@ -30,6 +30,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sarwa.Core.Common", "Sarwa.Core.Common\Sarwa.Core.Common.csproj", "{949BA66C-D21B-4262-8F99-79FCF5BC75A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sarwa.Core.Common.Contracts", "Sarwa.Core.Common.Contracts\Sarwa.Core.Common.Contracts.csproj", "{74C9D4E1-E572-4051-8403-69CBCD9D6286}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayerTest", "DataLayerTest\DataLayerTest.csproj", "{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{74C9D4E1-E572-4051-8403-69CBCD9D6286}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74C9D4E1-E572-4051-8403-69CBCD9D6286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74C9D4E1-E572-4051-8403-69CBCD9D6286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +88,6 @@ Global
 		{4BA6F64C-EDB7-4A0D-B4D0-2FB936C9C96D} = {9E9386FA-7369-4D77-9F7D-665AA92D3CD1}
 		{949BA66C-D21B-4262-8F99-79FCF5BC75A0} = {952A2179-FE24-446D-8225-AD77A1701F34}
 		{74C9D4E1-E572-4051-8403-69CBCD9D6286} = {952A2179-FE24-446D-8225-AD77A1701F34}
+		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B} = {AAD21D7D-306A-4445-AB78-DFAC12B9C5C6}
 	EndGlobalSection
 EndGlobal
