@@ -24,13 +24,6 @@ namespace Sarwa.Core.Common.Data
 
             return includeProperties
                         .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-
-            // IQueryable<TEntity> query = DbSet(entityContext);
-            //foreach (var includeProperty in includeProperties)
-            //{
-            //    query = query.Include(includeProperty);
-            //}
-            //return query;
         }
 
         private TEntity GetEntity(UContext entityContext, TKey id, params Expression<Func<TEntity, object>>[] includeProperties)
@@ -40,38 +33,39 @@ namespace Sarwa.Core.Common.Data
 
         public IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            return GetAllQueryable(includeProperties).ToList(); //.AsEnumerable();
+            using (UContext entityContext = new UContext())
+                return GetEntities(entityContext, includeProperties).ToList();
+           // DbFunctions.
         }
 
-        public IQueryable<TEntity> GetAllQueryable(params Expression<Func<TEntity, object>>[] includeProperties)
-        {
-            using (UContext entityContext = new UContext())
-            {
-                return GetEntities(entityContext, includeProperties);
-            }
-        }
+        //public IQueryable<TEntity> GetAllQueryable(params Expression<Func<TEntity, object>>[] includeProperties)
+        //{
+        //    using (UContext entityContext = new UContext())
+        //    {
+        //        return GetEntities(entityContext, includeProperties);
+        //    }
+        //}
 
         public TEntity GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
-            {
                 return GetEntity(entityContext, id, includeProperties);
-            }
         }
 
         public IEnumerable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            return GetByQueryable(predicate, includeProperties).AsEnumerable();
+            using (UContext entityContext = new UContext())
+                return GetEntities(entityContext, includeProperties).Where(predicate).ToList();
         }
 
-        public IQueryable<TEntity> GetByQueryable(Expression<Func<TEntity, bool>> predicate, 
-                                             params Expression<Func<TEntity, object>>[] includeProperties)
-        {
-            using (UContext entityContext = new UContext())
-            {
-                return GetEntities(entityContext, includeProperties).Where(predicate);
-            }
-        }
+        //public IQueryable<TEntity> GetByQueryable(Expression<Func<TEntity, bool>> predicate, 
+        //                                     params Expression<Func<TEntity, object>>[] includeProperties)
+        //{
+        //    using (UContext entityContext = new UContext())
+        //    {
+        //        return GetEntities(entityContext, includeProperties).Where(predicate);
+        //    }
+        //}
 
         public TEntity Add(TEntity entity)
         {
@@ -85,7 +79,7 @@ namespace Sarwa.Core.Common.Data
             }
         }
 
-        public TEntity Update(TEntity entity)
+        public virtual TEntity Update(TEntity entity)
         {
             using (UContext entityContext = new UContext())
             {
@@ -98,7 +92,7 @@ namespace Sarwa.Core.Common.Data
             }
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             using (UContext entityContext = new UContext())
             {
@@ -107,7 +101,7 @@ namespace Sarwa.Core.Common.Data
             }
         }
    
-        public void Delete(TKey id)
+        public virtual void Delete(TKey id)
         {
             using (UContext entityContext = new UContext())
             {
@@ -117,7 +111,7 @@ namespace Sarwa.Core.Common.Data
             }
         }
 
-        public void DeleteWhere(Expression<Func<TEntity, bool>> predicate)
+        public virtual void DeleteWhere(Expression<Func<TEntity, bool>> predicate)
         {
             using (UContext entityContext = new UContext())
             {
@@ -129,14 +123,6 @@ namespace Sarwa.Core.Common.Data
                 }
                 
                 entityContext.SaveChanges();
-            }
-        }
-
-        public int Count()
-        {
-            using (UContext entityContext = new UContext())
-            {
-                return GetEntities(entityContext).Count();
             }
         }
 
