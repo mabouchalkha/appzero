@@ -38,14 +38,6 @@ namespace Sarwa.Core.Common.Data
            // DbFunctions.
         }
 
-        //public IQueryable<TEntity> GetAllQueryable(params Expression<Func<TEntity, object>>[] includeProperties)
-        //{
-        //    using (UContext entityContext = new UContext())
-        //    {
-        //        return GetEntities(entityContext, includeProperties);
-        //    }
-        //}
-
         public TEntity GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
@@ -57,15 +49,6 @@ namespace Sarwa.Core.Common.Data
             using (UContext entityContext = new UContext())
                 return GetEntities(entityContext, includeProperties).Where(predicate).ToList();
         }
-
-        //public IQueryable<TEntity> GetByQueryable(Expression<Func<TEntity, bool>> predicate, 
-        //                                     params Expression<Func<TEntity, object>>[] includeProperties)
-        //{
-        //    using (UContext entityContext = new UContext())
-        //    {
-        //        return GetEntities(entityContext, includeProperties).Where(predicate);
-        //    }
-        //}
 
         public TEntity Add(TEntity entity)
         {
@@ -83,7 +66,11 @@ namespace Sarwa.Core.Common.Data
         {
             using (UContext entityContext = new UContext())
             {
-                // entityContext.Set<TEntity>().Attach(entity);
+                TEntity existingEntity = GetEntity(entityContext, entity.EntityId);
+
+                if (existingEntity == null)
+                    throw new InvalidOperationException();
+
                 entityContext.Entry(entity).State = EntityState.Modified;
 
                 entityContext.SaveChanges();

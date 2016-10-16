@@ -52,6 +52,21 @@ namespace DataLayerTest
         }
 
         [TestMethod]
+        public void Update_Customer()
+        {
+            var customer = new Customer
+            {
+                CustomerId = 7,
+                FirstName = "Ouijdane",
+                LastName = "chaoulid2"
+            };
+
+            customer = _customerRepository.Update(customer);
+
+            Assert.IsNotNull(customer);
+        }
+
+        [TestMethod]
         public void Delete_Entity_Customer()
         {
             Assert.IsTrue(false);

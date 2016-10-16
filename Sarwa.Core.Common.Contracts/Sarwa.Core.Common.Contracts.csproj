@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBaseRepository.cs" />
+    <Compile Include="IBusinessEngine.cs" />
+    <Compile Include="IBusinessEngineFactory.cs" />
+    <Compile Include="IDataRepositoryFactory.cs" />
     <Compile Include="IIdentifiableEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

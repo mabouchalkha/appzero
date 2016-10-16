@@ -76,7 +76,7 @@
   <ItemGroup>
     <Compile Include="DbContextTest.cs" />
     <Compile Include="Entities\Address.cs" />
-    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Repositories Interfaces\Customer.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="GenericRepositoryTest.cs" />
     <Compile Include="Migrations\201610101443126_InitialCreate.cs" />
