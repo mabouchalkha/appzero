@@ -11,7 +11,7 @@ using System.Data;
 
 namespace Sarwa.Core.Common.Data
 {
-    public abstract class BaseRepository<TEntity, UContext, TKey> : IBaseRepository<TEntity, UContext, TKey>
+    public abstract class DataRepositoryBase<TEntity, UContext, TKey> : IDataRepositoryBase<TEntity, UContext, TKey>
         where TEntity : class, IIdentifiableEntity<TKey>, new()
         where UContext : DbContext, new()
     {
@@ -35,7 +35,7 @@ namespace Sarwa.Core.Common.Data
         {
             using (UContext entityContext = new UContext())
                 return GetEntities(entityContext, includeProperties).ToList();
-           // DbFunctions.
+            // DbFunctions.
         }
 
         public TEntity GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties)
@@ -87,7 +87,7 @@ namespace Sarwa.Core.Common.Data
                 entityContext.SaveChanges();
             }
         }
-   
+
         public virtual void Delete(TKey id)
         {
             using (UContext entityContext = new UContext())
@@ -108,7 +108,7 @@ namespace Sarwa.Core.Common.Data
                 {
                     entityContext.Entry(entity).State = EntityState.Deleted;
                 }
-                
+
                 entityContext.SaveChanges();
             }
         }

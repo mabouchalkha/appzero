@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 
 namespace Sarwa.Core.Common.Contracts
 {
-    public interface IBaseRepository
+    public interface IDataRepositoryBase
     {
     }
 
-    public interface IBaseRepository<TEntity, UContext, TKey> : IBaseRepository
+    public interface IDataRepositoryBase<TEntity, UContext, TKey> : IDataRepositoryBase
         where TEntity : class, new()
     {
         IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties);

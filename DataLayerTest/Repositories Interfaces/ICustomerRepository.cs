@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayerTest.Repositories_Interfaces
 {
-    public interface ICustomerRepository : IBaseRepository<Customer, DbContextTest, int>
+    public interface ICustomerRepository : IDataRepositoryBase<Customer, DbContextTest, int>
     {
     }
 }

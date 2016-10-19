@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBaseRepository.cs" />
+    <Compile Include="IAuditable.cs" />
+    <Compile Include="IDataRepositoryBase.cs" />
     <Compile Include="IBusinessEngine.cs" />
     <Compile Include="IBusinessEngineFactory.cs" />
     <Compile Include="IDataRepositoryFactory.cs" />

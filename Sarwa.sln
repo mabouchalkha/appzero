@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sarwa.Core.Common.Contracts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayerTest", "DataLayerTest\DataLayerTest.csproj", "{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Sarwa.Host.WebApi", "Sarwa.Host.WebApi\Sarwa.Host.WebApi.xproj", "{3360E3CE-58F2-4EC2-B792-4FD52462BFD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3360E3CE-58F2-4EC2-B792-4FD52462BFD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3360E3CE-58F2-4EC2-B792-4FD52462BFD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3360E3CE-58F2-4EC2-B792-4FD52462BFD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3360E3CE-58F2-4EC2-B792-4FD52462BFD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +95,6 @@ Global
 		{949BA66C-D21B-4262-8F99-79FCF5BC75A0} = {952A2179-FE24-446D-8225-AD77A1701F34}
 		{74C9D4E1-E572-4051-8403-69CBCD9D6286} = {952A2179-FE24-446D-8225-AD77A1701F34}
 		{B2D362E0-2DB3-49EF-8C62-5B86B5F7BD9B} = {AAD21D7D-306A-4445-AB78-DFAC12B9C5C6}
+		{3360E3CE-58F2-4EC2-B792-4FD52462BFD4} = {9DFA91B6-904C-4675-85A0-F27074F65DFB}
 	EndGlobalSection
 EndGlobal

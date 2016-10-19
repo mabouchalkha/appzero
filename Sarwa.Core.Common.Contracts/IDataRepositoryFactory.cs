@@ -2,6 +2,6 @@
 {
     public interface IDataRepositoryFactory
     {
-        T GetDataRepository<T>() where T : IBaseRepository;
+        T GetDataRepository<T>() where T : IDataRepositoryBase;
     }
 }

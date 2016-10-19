@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace DataLayerTest.Repositories
 {
-    public class CustomerRepository : BaseRepository<Customer, DbContextTest, int>, ICustomerRepository
+    public class CustomerRepository : DataRepositoryBase<Customer, DbContextTest, int>, ICustomerRepository
     {
         protected override DbSet<Customer> DbSet(DbContextTest entityContext)
         {

@@ -11,10 +11,10 @@ namespace Sarwa.TestConsole
             string valEmpty = string.Empty;
             string valNotEmpty = "Mohamed amine bouchalkha";
 
-            if(valEmpty.IsNullOrEmpty() && valEmpty.IsNullOrWhiteSpace())
+            if (valEmpty.IsNullOrEmpty() && valEmpty.IsNullOrWhiteSpace())
                 Console.WriteLine($"String Empty {valEmpty} you see nothing");
 
-            if(!valNotEmpty.IsNullOrEmpty() && !valNotEmpty.IsNullOrWhiteSpace())
+            if (!valNotEmpty.IsNullOrEmpty() && !valNotEmpty.IsNullOrWhiteSpace())
                 Console.WriteLine($"String Not Empty {valNotEmpty} you see something");
 
             Console.WriteLine(Environment.NewLine);
@@ -28,7 +28,7 @@ namespace Sarwa.TestConsole
 
             List<string> listEmpty = new List<string>();
 
-            if(!listOfString.IsNullOrEmpty())
+            if (!listOfString.IsNullOrEmpty())
                 Console.WriteLine($"List isn't empty");
 
             if (listEmpty.IsNullOrEmpty())
