@@ -3,6 +3,7 @@ using System.Linq;
 using Moq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DataLayerTest.Entities;
+using System.Collections.Generic;
 
 namespace DataLayerTest
 {
@@ -20,7 +21,9 @@ namespace DataLayerTest
         public void Get_All_NoTracking()
         {
             var customer = _customerRepository.GetAll();
-            Assert.AreEqual(5, customer.Count());
+            var customers = _customerRepository.Query("-LastName, -FirstName");
+    
+            Assert.AreEqual(6, customer.Count());
         }
 
         [TestMethod]

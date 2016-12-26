@@ -8,6 +8,8 @@ using System.Data.Common;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data;
+using Sarwa.Core.Common.Paging;
+using Sarwa.Core.Common.Helpers;
 
 namespace Sarwa.Core.Common.Data
 {
@@ -15,6 +17,7 @@ namespace Sarwa.Core.Common.Data
         where TEntity : class, IIdentifiableEntity<TKey>, new()
         where UContext : DbContext, new()
     {
+        private const int maxPageSizse = 15;
         protected abstract Expression<Func<TEntity, bool>> IdentifierPredicate(UContext entityContext, TKey id);
         protected abstract DbSet<TEntity> DbSet(UContext entityContext);
 
@@ -31,26 +34,34 @@ namespace Sarwa.Core.Common.Data
             return GetEntities(entityContext, includeProperties).SingleOrDefault(IdentifierPredicate(entityContext, id));
         }
 
-        public IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual IPagedList<TEntity> Query(string sort = "EntityId", int pageIndex = 1, int pageSize = maxPageSizse, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            using (UContext entityContext = new UContext())
+            {
+                var entities = GetEntities(entityContext, includeProperties).ApplySort(sort);
+                return new PagedList<TEntity>(entities, pageIndex, pageSize);
+            }
+        }
+        public virtual IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
                 return GetEntities(entityContext, includeProperties).ToList();
-            // DbFunctions.
+            //DbFunctions.
         }
 
-        public TEntity GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual TEntity GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
                 return GetEntity(entityContext, id, includeProperties);
         }
 
-        public IEnumerable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual IEnumerable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
                 return GetEntities(entityContext, includeProperties).Where(predicate).ToList();
         }
 
-        public TEntity Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             using (UContext entityContext = new UContext())
             {
@@ -59,6 +70,18 @@ namespace Sarwa.Core.Common.Data
                 entityContext.SaveChanges();
 
                 return addedEntity;
+            }
+        }
+
+        public virtual IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities)
+        {
+            using (UContext entityContext = new UContext())
+            {
+                IEnumerable<TEntity> addedEntities = DbSet(entityContext).AddRange(entities);
+
+                entityContext.SaveChanges();
+
+                return addedEntities;
             }
         }
 
@@ -113,7 +136,7 @@ namespace Sarwa.Core.Common.Data
             }
         }
 
-        public TEntity ExecuteSql(string sql, List<DbParameter> parms)
+        public virtual TEntity ExecuteSql(string sql, List<DbParameter> parms)
         {
             using (UContext entityContext = new UContext())
             {
@@ -123,7 +146,7 @@ namespace Sarwa.Core.Common.Data
             }
         }
 
-        public IDataReader ExecuteSql(UContext entityContext, string sql, List<DbParameter> parms)
+        public virtual IDataReader ExecuteSql(UContext entityContext, string sql, List<DbParameter> parms)
         {
             DbCommand command = entityContext.Database.Connection.CreateCommand();
             command.CommandText = sql;

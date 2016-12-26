@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Sarwa.Host.WebApi.Entities;
 
 namespace Sarwa.Host.WebApi
 {
@@ -29,6 +31,9 @@ namespace Sarwa.Host.WebApi
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddDbContext<ExpenseTrackerContext>(options =>
+                     options.UseSqlServer(Configuration.GetConnectionString("main")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +42,8 @@ namespace Sarwa.Host.WebApi
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseMvc();
+            app.UseMvc(routeBuilder =>
+                routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}"));
         }
     }
 }

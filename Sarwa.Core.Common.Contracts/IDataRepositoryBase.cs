@@ -21,6 +21,8 @@ namespace Sarwa.Core.Common.Contracts
 
         TEntity Add(TEntity entity);
 
+        IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities);
+
         TEntity Update(TEntity entity);
 
         void Delete(TKey id);

@@ -1,0 +1,49 @@
+﻿using Sarwa.Core.Common.Contracts;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Sarwa.Core.Common.Paging
+{
+    public class PagedList<T> : List<T>, IPagedList<T>
+    {
+        public PagedList(IQueryable<T> source, int pageIndex, int pageSize)
+        { 
+            TotalCount = source.Count();
+            TotalPages = (int)System.Math.Ceiling((double)TotalCount / pageSize);
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+            AddRange(source.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToList());
+        }
+        
+        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize)
+        {
+            TotalCount = source.Count();
+            TotalPages = (int)System.Math.Ceiling((double)TotalCount / pageSize);
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+            AddRange(source.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToList());
+        }
+
+        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int totalCount)
+        {
+            TotalCount = totalCount;
+            TotalPages = (int)System.Math.Ceiling((double)TotalCount / pageSize);
+            PageSize = pageSize;
+            PageIndex = pageIndex;
+            AddRange(source);
+        }
+
+        public int PageIndex { get; private set; }
+        public int PageSize { get; private set; }
+        public int TotalCount { get; private set; }
+        public int TotalPages { get; private set; }
+
+        public bool HasPreviousPage => PageIndex > 0;
+
+        public bool HasNextPage => (PageIndex + 1 < TotalPages);
+
+        public bool IsFirstPage => !HasPreviousPage;
+
+        public bool IsLastPage => !HasNextPage;
+    }
+}
