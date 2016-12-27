@@ -14,9 +14,10 @@ namespace DataLayerTest.Repositories
             return entityContext.CustomerSet;
         }
 
-        protected override Expression<Func<Customer, bool>> IdentifierPredicate(DbContextTest entityContext, int id)
-        {
-            return (e => e.CustomerId == id);
-        }
+        //protected override Expression<Func<Order, bool>> IdentifierPredicate(DbContextTest entityContext, int id)
+        //{
+        //    return (e => e.EntityId == id);
+        //}
+
     }
 }

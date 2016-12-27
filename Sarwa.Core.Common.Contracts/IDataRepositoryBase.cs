@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.Entity;
 using System.Linq.Expressions;
 
 namespace Sarwa.Core.Common.Contracts
@@ -11,7 +12,8 @@ namespace Sarwa.Core.Common.Contracts
     }
 
     public interface IDataRepositoryBase<TEntity, UContext, TKey> : IDataRepositoryBase
-        where TEntity : class, new()
+        where TEntity : class, IIdentifiableEntity<TKey>, new()
+        where UContext : DbContext, new()
     {
         IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties);
 
