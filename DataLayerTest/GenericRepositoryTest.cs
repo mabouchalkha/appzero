@@ -20,8 +20,8 @@ namespace DataLayerTest
         [TestMethod]
         public void Get_All_NoTracking()
         {
-            var customer = _customerRepository.GetAll();
-            var customers = _customerRepository.Query("-LastName, -FirstName");
+            IEnumerable<Customer> customer = _customerRepository.GetAll();
+            var customers = _customerRepository.Query("-LastName, -FirstName", 1, 15);
     
             Assert.AreEqual(6, customer.Count());
         }

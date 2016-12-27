@@ -17,7 +17,6 @@ namespace Sarwa.Core.Common.Data
         where TEntity : class, IIdentifiableEntity<TKey>, new()
         where UContext : DbContext, new()
     {
-        private const int maxPageSizse = 15;
         protected abstract Expression<Func<TEntity, bool>> IdentifierPredicate(UContext entityContext, TKey id);
         protected abstract DbSet<TEntity> DbSet(UContext entityContext);
 
@@ -34,12 +33,12 @@ namespace Sarwa.Core.Common.Data
             return GetEntities(entityContext, includeProperties).SingleOrDefault(IdentifierPredicate(entityContext, id));
         }
 
-        public virtual IPagedList<TEntity> Query(string sort = "EntityId", int pageIndex = 1, int pageSize = maxPageSizse, params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual IPagedList<TEntity> Query(string sort, int page, int pageSize, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
             {
                 var entities = GetEntities(entityContext, includeProperties).ApplySort(sort);
-                return new PagedList<TEntity>(entities, pageIndex, pageSize);
+                return new PagedList<TEntity>(entities, page, pageSize);
             }
         }
         public virtual IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)

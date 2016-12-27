@@ -6,30 +6,30 @@ namespace Sarwa.Core.Common.Paging
 {
     public class PagedList<T> : List<T>, IPagedList<T>
     {
-        public PagedList(IQueryable<T> source, int pageIndex, int pageSize)
+        public PagedList(IQueryable<T> source, int page, int pageSize)
         { 
             TotalCount = source.Count();
             TotalPages = (int)System.Math.Ceiling((double)TotalCount / pageSize);
             PageSize = pageSize;
-            PageIndex = pageIndex;
-            AddRange(source.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToList());
+            PageIndex = page;
+            AddRange(source.Skip(pageSize * (page - 1)).Take(pageSize).ToList());
         }
         
-        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize)
+        public PagedList(IEnumerable<T> source, int page, int pageSize)
         {
             TotalCount = source.Count();
             TotalPages = (int)System.Math.Ceiling((double)TotalCount / pageSize);
             PageSize = pageSize;
-            PageIndex = pageIndex;
-            AddRange(source.Skip(pageSize * (pageIndex - 1)).Take(pageSize).ToList());
+            PageIndex = page;
+            AddRange(source.Skip(pageSize * (page - 1)).Take(pageSize).ToList());
         }
 
-        public PagedList(IEnumerable<T> source, int pageIndex, int pageSize, int totalCount)
+        public PagedList(IEnumerable<T> source, int page, int pageSize, int totalCount)
         {
             TotalCount = totalCount;
             TotalPages = (int)System.Math.Ceiling((double)TotalCount / pageSize);
             PageSize = pageSize;
-            PageIndex = pageIndex;
+            PageIndex = page;
             AddRange(source);
         }
 
