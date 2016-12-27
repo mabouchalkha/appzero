@@ -17,13 +17,8 @@ namespace Sarwa.Core.Common.Data
         where TEntity : class, IIdentifiableEntity<TKey>, new()
         where UContext : DbContext, new()
     {
-        //protected abstract Expression<Func<TEntity, bool>> IdentifierPredicate(UContext entityContext, TKey id);
+        protected abstract Expression<Func<TEntity, bool>> IdentifierPredicate(UContext entityContext, TKey id);
         protected abstract DbSet<TEntity> DbSet(UContext entityContext);
-
-        private Expression<Func<TEntity, bool>> IdentifierPredicate(UContext entityContext, TKey id)
-        {
-            return (e => e.EntityId.Equals(id));
-        }
 
         private IQueryable<TEntity> GetEntities(UContext entityContext, params Expression<Func<TEntity, object>>[] includeProperties)
         {

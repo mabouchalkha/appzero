@@ -21,7 +21,7 @@ namespace DataLayerTest
         public void Get_All_NoTracking()
         {
             IEnumerable<Customer> customer = _customerRepository.GetAll();
-            var customers = _customerRepository.Query("-LastName, -FirstName", 1, 15);
+            var customers = _customerRepository.Query("LastName, FirstName", 1, 15);
     
             Assert.AreEqual(6, customer.Count());
         }
@@ -45,8 +45,8 @@ namespace DataLayerTest
         {
             var customer = new Customer
             {
-                FirstName = "Ouijdane",
-                LastName = "chaoulid"
+                FirstName = "Zuijdane",
+                LastName = "ahaoulid"
             };
 
             customer = _customerRepository.Add(customer);
