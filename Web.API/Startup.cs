@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
 using NLog.Extensions.Logging;
 using API.Services;
 using Microsoft.Extensions.Configuration;
@@ -53,7 +47,7 @@ namespace API
 #else
             services.AddTransient<IMailService, CloudMailService>();
 #endif
-            var connectionString = Startup.Configuration["connectionStrings:cityInfoDBConnectionString"];
+            var connectionString = Configuration["connectionStrings:cityInfoDBConnectionString"];
             services.AddDbContext<CityInfoContext>(o => o.UseSqlServer(connectionString));
 
             services.AddScoped<ICityInfoRepository, CityInfoRepository>();

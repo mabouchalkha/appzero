@@ -1,18 +1,14 @@
-﻿using Sarwa.Core.Common.Contracts;
-using Sarwa.Core.Common.Helpers;
-using Sarwa.Core.Common.Paging;
+﻿using Microsoft.EntityFrameworkCore;
+using Sarwa.Core.Data.EFCore.Helpers;
+using Sarwa.Core.Data.EFCore.Paging;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
-namespace Sarwa.Core.Common.Data
+namespace Sarwa.Core.Data.EFCore
 {
     public abstract class DataRepositoryBase<TEntity, UContext, TKey> : IDataRepositoryBase<TEntity, UContext, TKey>
         where TEntity : class, IIdentifiableEntity<TKey>, new()
@@ -42,10 +38,10 @@ namespace Sarwa.Core.Common.Data
                 return new PagedList<TEntity>(entities, page, pageSize);
             }
         }
-        public virtual IEnumerable<TEntity> GetAll(string sort = null, params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties)
         {
             using (UContext entityContext = new UContext())
-                return GetEntities(entityContext, includeProperties).ApplySort(sort).ToList();
+                return GetEntities(entityContext, includeProperties).ToList();
             //DbFunctions.
         }
 
@@ -65,23 +61,21 @@ namespace Sarwa.Core.Common.Data
         {
             using (UContext entityContext = new UContext())
             {
-                TEntity addedEntity = DbSet(entityContext).Add(entity);
+                var addedEntity = DbSet(entityContext).Add(entity);
 
                 entityContext.SaveChanges();
 
-                return addedEntity;
+                return addedEntity.Entity;
             }
         }
 
-        public virtual IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities)
+        public virtual void AddRange(IEnumerable<TEntity> entities)
         {
             using (UContext entityContext = new UContext())
             {
-                IEnumerable<TEntity> addedEntities = DbSet(entityContext).AddRange(entities);
+                DbSet(entityContext).AddRange(entities);
 
                 entityContext.SaveChanges();
-
-                return addedEntities;
             }
         }
 
@@ -136,79 +130,29 @@ namespace Sarwa.Core.Common.Data
             }
         }
 
-        public virtual TEntity ExecuteSql(string sql, List<DbParameter> parms)
+        public virtual IEnumerable<TEntity> ExecuteSql(string sql, List<DbParameter> parms)
         {
             using (UContext entityContext = new UContext())
             {
                 DbDataReader reader = (DbDataReader)(ExecuteSql(entityContext, sql, parms));
-                ObjectResult<TEntity> result = ((IObjectContextAdapter)entityContext).ObjectContext.Translate<TEntity>(reader);
-                return result.FirstOrDefault();
+                return entityContext.Set<TEntity>().FromReader(reader);
             }
         }
 
         public virtual IDataReader ExecuteSql(UContext entityContext, string sql, List<DbParameter> parms)
         {
-            DbCommand command = entityContext.Database.Connection.CreateCommand();
+            DbCommand command = entityContext.Database.GetDbConnection().CreateCommand();
             command.CommandText = sql;
             command.CommandType = CommandType.Text;
             if (parms != null)
                 foreach (DbParameter p in parms)
                     command.Parameters.Add(p);
 
-            if (entityContext.Database.Connection.State != ConnectionState.Open)
-                entityContext.Database.Connection.Open();
+            if (entityContext.Database.GetDbConnection().State != ConnectionState.Open)
+                entityContext.Database.GetDbConnection().Open();
 
             IDataReader reader = command.ExecuteReader();
             return reader;
         }
     }
-
-    //public class PropertyIncluder<TEntity> where TEntity : class
-    //{
-    //    private readonly Func<DbQuery<TEntity>, DbQuery<TEntity>> _includeMethod;
-    //    private readonly HashSet<Type> _visitedTypes;
-
-    //    public PropertyIncluder()
-    //    {
-    //        //Recursively get properties to include
-    //        _visitedTypes = new HashSet<Type>();
-    //        var propsToLoad = GetPropsToLoad(typeof(TEntity)).ToArray();
-
-    //        _includeMethod = d =>
-    //        {
-    //            var dbSet = d;
-    //            foreach (var prop in propsToLoad)
-    //            {
-    //                dbSet = dbSet.Include(prop);
-    //            }
-
-    //            return dbSet;
-    //        };
-    //    }
-
-    //    private IEnumerable<string> GetPropsToLoad(Type type)
-    //    {
-    //        _visitedTypes.Add(type);
-    //        var propsToLoad = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-    //                                          .Where(p => p.GetCustomAttributes(typeof(IncludeAttribute), true).Any());
-
-    //        foreach (var prop in propsToLoad)
-    //        {
-    //            yield return prop.Name;
-
-    //            if (_visitedTypes.Contains(prop.PropertyType))
-    //                continue;
-
-    //            foreach (var subProp in GetPropsToLoad(prop.PropertyType))
-    //            {
-    //                yield return prop.Name + "." + subProp;
-    //            }
-    //        }
-    //    }
-
-    //    public DbQuery<TEntity> BuildQuery(DbSet<TEntity> dbSet)
-    //    {
-    //        return _includeMethod(dbSet);
-    //    }
-    //}
 }

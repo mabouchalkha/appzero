@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.Entity;
 using System.Linq.Expressions;
 
-namespace Sarwa.Core.Common.Contracts
+namespace Sarwa.Core.Data.EFCore
 {
     public interface IDataRepositoryBase
     {
@@ -15,9 +15,7 @@ namespace Sarwa.Core.Common.Contracts
         where TEntity : class, IIdentifiableEntity<TKey>, new()
         where UContext : DbContext, new()
     {
-        IEnumerable<TEntity> GetAll(string sort, params Expression<Func<TEntity, object>>[] includeProperties);
-
-        IPagedList<TEntity> Query(string sort, int page, int pageSize, params Expression<Func<TEntity, object>>[] includeProperties);
+        IEnumerable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] includeProperties);
 
         TEntity GetById(TKey id, params Expression<Func<TEntity, object>>[] includeProperties);
 
@@ -25,7 +23,7 @@ namespace Sarwa.Core.Common.Contracts
 
         TEntity Add(TEntity entity);
 
-        IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities);
+        void AddRange(IEnumerable<TEntity> entities);
 
         TEntity Update(TEntity entity);
 
@@ -35,7 +33,7 @@ namespace Sarwa.Core.Common.Contracts
 
         void DeleteWhere(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity ExecuteSql(string sql, List<DbParameter> parms);
+        IEnumerable<TEntity> ExecuteSql(string sql, List<DbParameter> parms);
 
         IDataReader ExecuteSql(UContext entityContext, string sql, List<DbParameter> parms);
     }
