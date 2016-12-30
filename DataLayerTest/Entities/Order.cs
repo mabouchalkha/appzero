@@ -1,5 +1,4 @@
-﻿using System;
-using Sarwa.Core.Common.Contracts;
+﻿using Sarwa.Core.Common.Contracts;
 
 namespace DataLayerTest.Entities
 {
